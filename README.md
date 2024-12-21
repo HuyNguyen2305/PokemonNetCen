@@ -1,3 +1,3 @@
 # PokemonNetCen
  
-go get -u github.com/gocolly/colly/v2
+go get -u github.com/playwright-community/playwright-go
