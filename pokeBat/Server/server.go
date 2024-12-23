@@ -250,18 +250,11 @@ func chooseStartingPokemon(player *Player) int {
 }
 
 func pokemonBattle(battle *Battle) {
-	player1 := battle.Player1
-	player2 := battle.Player2
+	// Start with player1's turn
+	currentPlayer := battle.Player1
+	opponent := battle.Player2
 
 	for {
-		// Determine current player based on speed
-		currentPlayer := player1
-		opponent := player2
-		if battle.Player1.Pokemons[battle.Player1.ActivePokemonIndex].Stats.Speed <
-			battle.Player2.Pokemons[battle.Player2.ActivePokemonIndex].Stats.Speed {
-			currentPlayer, opponent = opponent, currentPlayer
-		}
-
 		// Prompt current player for action
 		currentPlayer.Conn.Write([]byte("Your turn! Choose an action: attack, switch, or surrender\n"))
 		action := readFromConn(currentPlayer.Conn)
@@ -297,11 +290,13 @@ func pokemonBattle(battle *Battle) {
 			}
 		}
 
-		// Switch turn to the other player
+		// Switch turns
 		if currentPlayer == battle.Player1 {
-			battle.Player1, battle.Player2 = battle.Player2, battle.Player1
+			currentPlayer = battle.Player2
+			opponent = battle.Player1
 		} else {
-			battle.Player1, battle.Player2 = battle.Player1, battle.Player2
+			currentPlayer = battle.Player1
+			opponent = battle.Player2
 		}
 	}
 }
