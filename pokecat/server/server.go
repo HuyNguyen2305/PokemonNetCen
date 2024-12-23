@@ -589,7 +589,7 @@ func main() {
 	// Spawn Pokémon every minute
 	go func() {
 		for {
-			spawnPokemons(pokedex, 100) // Spawn 50 Pokémon every minute
+			spawnPokemons(pokedex, 100000) // Spawn 50000 Pokémon every minute
 			time.Sleep(1 * time.Minute)
 		}
 	}()

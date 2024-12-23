@@ -33,5 +33,10 @@
     "Username": "user1",
     "PasswordHash": "$2a$10$WKii7v64CRfWZ4M6s6D15.ggQOVN4rIbc.aUWlIrz5MQck7aPLdfe",
     "PlayerID": "9dc3bf27-dd3d-4ac3-99f2-07206bd55fe8"
+  },
+  {
+    "Username": "2",
+    "PasswordHash": "$2a$10$a9w3Om/u8WtM4eqbYJslV.MtZbuuPSP/IdINdm9NDW0xHi2hTYsJ6",
+    "PlayerID": "019fed5b-ea41-4b4b-acaa-8d94328ad686"
   }
 ]
