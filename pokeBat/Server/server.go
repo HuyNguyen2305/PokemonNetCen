@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"math/rand/v2"
+	"math/rand"
 	"net"
 	"os"
 	"strconv"
@@ -13,7 +13,7 @@ import (
 
 const (
 	HOST         = "localhost"
-	PORT         = "8080"
+	PORT         = "8081"
 	TYPE         = "tcp"
 	MIN_PLAYERS  = 2
 	POKEDEX_FILE = "../assests/pokedex.json"
@@ -94,13 +94,6 @@ func loadUsers(filename string) ([]User, error) {
 	return userData.Users, nil
 }
 
-func randomPokemons(pokemons []Pokemon, count int) []Pokemon {
-	rand.Shuffle(len(pokemons), func(i, j int) {
-		pokemons[i], pokemons[j] = pokemons[j], pokemons[i]
-	})
-	return pokemons[:count]
-}
-
 // Function to load Pokémon from a JSON file
 func loadPokemons(filename string) ([]Pokemon, error) {
 	file, err := os.Open(filename)
@@ -164,83 +157,67 @@ func main() {
 
 		// Check if we have two players
 		if len(players) == 2 {
-			fmt.Println("Two players connected. Waiting for the game to start...")
-			// Continue waiting for the next connection
-			continue
+			fmt.Println("Two players connected. Starting the game...")
+
+			// Load Pokémon data from file
+			pokemons, err := loadPokemons(POKEDEX_FILE)
+			if err != nil {
+				log.Fatal("Error loading Pokémon data:", err)
+			}
+
+			// Randomly assign 3 Pokémon to each player
+			rand.Shuffle(len(pokemons), func(i, j int) {
+				pokemons[i], pokemons[j] = pokemons[j], pokemons[i]
+			})
+
+			// Divide the shuffled list into two sets for each player
+			players[0].Pokemons = pokemons[:3]
+			players[1].Pokemons = pokemons[3:6]
+
+			// Choose starting Pokémon
+			players[0].ActivePokemonIndex = chooseStartingPokemon(players[0])
+			players[1].ActivePokemonIndex = chooseStartingPokemon(players[1])
+
+			// Start the battle
+			pokemonBattle(&Battle{Player1: players[0], Player2: players[1]})
+			break // Exit loop after starting the battle
+		} else {
+			fmt.Println("Waiting for another player to connect...")
 		}
-
-		// Load Pokémon data from file
-		pokemons, err := loadPokemons(POKEDEX_FILE)
-		if err != nil {
-			log.Fatal("Error loading Pokémon data:", err)
-		}
-
-		// Randomly assign 3 Pokémon to each player
-		player1 := players[0]
-		player2 := players[1]
-
-		rand.Shuffle(len(pokemons), func(i, j int) {
-			pokemons[i], pokemons[j] = pokemons[j], pokemons[i]
-		})
-
-		// Divide the shuffled list into two sets for each player
-		player1.Pokemons = pokemons[:3]
-		player2.Pokemons = pokemons[3:6]
-
-		// Choose starting Pokémon
-		player1.ActivePokemonIndex = chooseStartingPokemon(player1)
-		player2.ActivePokemonIndex = chooseStartingPokemon(player2)
-
-		// Start the battle
-		/*battle := &Battle{
-			Player1: player1,
-			Player2: player2,
-		}*/
-
-		//runBattle(battle)
-		//break // Exit loop after starting the battle
 	}
 }
 
-// Function to authenticate the user
 func authenticate(conn net.Conn) bool {
-	defer conn.Close() // Ensure the connection is closed when done
-	fmt.Println("Authenticating client:", conn.RemoteAddr().String())
+	// Read authentication data from the connection
+	authData := readFromConn(conn)
+	parts := strings.Split(authData, "_")
 
-	// Read authentication data from client
-	buffer := make([]byte, 1024)
-	n, err := conn.Read(buffer)
+	// Check if the format is correct
+	if len(parts) != 2 {
+		log.Printf("Authentication data format error: expected 2 parts, got %d", len(parts))
+		return false
+	}
+
+	username := parts[0]
+	receivedPassword := parts[1]
+
+	// Load users from the JSON file
+	users, err := loadUsers(USER_FILE)
 	if err != nil {
-		fmt.Println("Error reading from client:", err)
+		log.Printf("Error loading users: %v", err)
 		return false
 	}
 
-	authData := strings.TrimSpace(string(buffer[:n]))
-	credentials := strings.Split(authData, "_")
-	if len(credentials) != 2 {
-		conn.Write([]byte("Invalid authentication format. Use 'username_password'.\n"))
-		return false
-	}
-
-	username, password := credentials[0], credentials[1]
-	if isAuthenticated(username, password) {
-		conn.Write([]byte("authenticated\n"))
-		fmt.Println("User  authenticated:", username)
-		return true
-	} else {
-		conn.Write([]byte("authentication failed\n"))
-		fmt.Println("Authentication failed for user:", username)
-		return false
-	}
-}
-
-// Function to check if the user is authenticated
-func isAuthenticated(username, password string) bool {
+	// Check each user for a match
 	for _, user := range users {
-		if user.Username == username && user.Password == password {
+		if user.Username == username && user.Password == receivedPassword {
+			log.Println("Authentication successful")
+			conn.Write([]byte("authenticated\n"))
 			return true
 		}
 	}
+
+	log.Println("Authentication failed: no matching user found")
 	return false
 }
 
@@ -269,5 +246,151 @@ func chooseStartingPokemon(player *Player) int {
 			return index - 1
 		}
 		player.Conn.Write([]byte("Invalid choice. Please choose a valid Pokémon.\n"))
+	}
+}
+
+func pokemonBattle(battle *Battle) {
+	player1 := battle.Player1
+	player2 := battle.Player2
+
+	for {
+		// Determine current player based on speed
+		currentPlayer := player1
+		opponent := player2
+		if battle.Player1.Pokemons[battle.Player1.ActivePokemonIndex].Stats.Speed <
+			battle.Player2.Pokemons[battle.Player2.ActivePokemonIndex].Stats.Speed {
+			currentPlayer, opponent = opponent, currentPlayer
+		}
+
+		// Prompt current player for action
+		currentPlayer.Conn.Write([]byte("Your turn! Choose an action: attack, switch, or surrender\n"))
+		action := readFromConn(currentPlayer.Conn)
+
+		switch action {
+		case "attack":
+			performAttack(currentPlayer, opponent)
+		case "switch":
+			switchPokemon(currentPlayer)
+		case "surrender":
+			endBattle(battle, opponent)
+			return
+		default:
+			currentPlayer.Conn.Write([]byte("Invalid action. Please choose attack, switch, or surrender.\n"))
+			continue
+		}
+
+		// Check if opponent's Pokémon is defeated
+		if opponent.Pokemons[opponent.ActivePokemonIndex].Stats.HP <= 0 {
+			// Switch to next available Pokémon
+			nextAvailable := false
+			for i, pokemon := range opponent.Pokemons {
+				if pokemon.Stats.HP > 0 {
+					opponent.ActivePokemonIndex = i
+					nextAvailable = true
+					break
+				}
+			}
+			if !nextAvailable {
+				// No Pokémon left, opponent loses
+				endBattle(battle, currentPlayer)
+				return
+			}
+		}
+
+		// Switch turn to the other player
+		if currentPlayer == battle.Player1 {
+			battle.Player1, battle.Player2 = battle.Player2, battle.Player1
+		} else {
+			battle.Player1, battle.Player2 = battle.Player1, battle.Player2
+		}
+	}
+}
+
+func performAttack(attacker, defender *Player) {
+	// Get the active Pokémon for both players
+	attackPokemon := &attacker.Pokemons[attacker.ActivePokemonIndex]
+	defendPokemon := &defender.Pokemons[defender.ActivePokemonIndex]
+
+	// Randomly choose between normal attack and special attack
+	isSpecial := rand.Intn(2) == 0
+
+	var damage int
+	if isSpecial {
+		// Calculate damage for special attack using Sp_Attack
+		damage = (attackPokemon.Stats.Sp_Attack - defendPokemon.Stats.Sp_Defense)
+	} else {
+		// Calculate damage for normal attack using Attack
+		damage = (attackPokemon.Stats.Attack - defendPokemon.Stats.Defense)
+	}
+
+	// Apply elemental damage coefficient from the defender's damage when attacked
+	for _, damageInfo := range defendPokemon.Damage {
+		if damageInfo.Element == attackPokemon.Elements[0] { // Assuming the first element is used for the attack
+			damage = int(float64(damage) * damageInfo.Coefficient)
+			break
+		}
+	}
+
+	// Ensure minimum damage is 1
+	if damage < 1 {
+		damage = 1
+	}
+
+	// Update the defender's HP
+	defendPokemon.Stats.HP -= damage
+	if defendPokemon.Stats.HP < 0 {
+		defendPokemon.Stats.HP = 0
+	}
+
+	// Send messages to both players
+	attacker.Conn.Write([]byte(fmt.Sprintf("You attacked %s's %s for %d damage.\n", defender.Name, defendPokemon.Name, damage)))
+	defender.Conn.Write([]byte(fmt.Sprintf("Your %s was attacked for %d damage.\n", defendPokemon.Name, damage)))
+}
+
+func switchPokemon(player *Player) {
+	// Notify the player to choose a Pokémon to switch to
+	player.Conn.Write([]byte("Choose a Pokémon to switch to:\n"))
+
+	// List available Pokémon with their HP
+	for i, pokemon := range player.Pokemons {
+		player.Conn.Write([]byte(fmt.Sprintf("%d: %s (HP: %d)\n", i+1, pokemon.Name, pokemon.Stats.HP)))
+	}
+
+	// Loop until a valid choice is made
+	for {
+		choice := readFromConn(player.Conn) // Read the player's choice
+		index, err := strconv.Atoi(choice)  // Convert choice to integer
+
+		// Check if the choice is valid
+		if err == nil && index >= 1 && index <= len(player.Pokemons) && player.Pokemons[index-1].Stats.HP > 0 {
+			player.ActivePokemonIndex = index - 1 // Update the active Pokémon index
+			player.Conn.Write([]byte(fmt.Sprintf("Switched to %s.\n", player.Pokemons[player.ActivePokemonIndex].Name)))
+			return // Exit the function after a successful switch
+		}
+
+		// Notify the player of an invalid choice
+		player.Conn.Write([]byte("Invalid choice. Please choose a valid Pokémon.\n"))
+	}
+}
+
+func endBattle(battle *Battle, winner *Player) {
+	// Notify the winner
+	winner.Conn.Write([]byte("Congratulations! You won the battle.\n"))
+
+	// Determine the loser
+	loser := battle.Player1
+	if winner == battle.Player1 {
+		loser = battle.Player2
+	}
+
+	// Notify the loser
+	loser.Conn.Write([]byte("You lost the battle.\n"))
+
+	// Close connections
+	if err := battle.Player1.Conn.Close(); err != nil {
+		log.Printf("Error closing connection for %s: %v\n", battle.Player1.Name, err)
+	}
+	if err := battle.Player2.Conn.Close(); err != nil {
+		log.Printf("Error closing connection for %s: %v\n", battle.Player2.Name, err)
 	}
 }
