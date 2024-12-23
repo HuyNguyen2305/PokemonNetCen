@@ -109,7 +109,7 @@ func crawlPokemonsDriver(numsOfPokemons int) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	os.WriteFile("../lib/pokedex.json", js, 0644)
+	os.WriteFile("pokedex.json", js, 0644)
 
 	if err = browser.Close(); err != nil {
 		log.Fatalf("could not close browser: %v", err)

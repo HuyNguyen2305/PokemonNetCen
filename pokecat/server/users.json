@@ -1,0 +1,32 @@
+[
+  {
+    "Username": "khoi5",
+    "PasswordHash": "$2a$10$a5Aj071Pc2L6CKSVpNq/TO12RjXEqQ9j1UEBMSKtNpUMQwJiJmgKa",
+    "PlayerID": "ac939ff0-d430-4fb1-a527-830f588f0473"
+  },
+  {
+    "Username": "khoi",
+    "PasswordHash": "$2a$10$ZqOWurdL/DUJYYJd0poU/uFbMLsotU9pQ1xA3tkszlS4zmUR2DhJ2",
+    "PlayerID": "69de9beb-7405-464b-91bb-5bcde1b90191"
+  },
+  {
+    "Username": "khoi3",
+    "PasswordHash": "$2a$10$d3rkjqS0hNvDPkRVecQ1cOvsLJGsBqHWMY3.ypFbD7TEnHsBx3dvW",
+    "PlayerID": "03f25c16-4e46-4882-8aea-01787f5f383a"
+  },
+  {
+    "Username": "khoi6",
+    "PasswordHash": "$2a$10$ctEyE5hRL948dkY5kTphKOfh7GKuvbl61jpLiynKEfeahrQtj2wcC",
+    "PlayerID": "892f5a7f-3ebb-49ee-96e4-90017e7e67ea"
+  },
+  {
+    "Username": "haha",
+    "PasswordHash": "$2a$10$1zfv4x26uPgxvSMP6apMY.Gx1s3XjVE5EJ.hjoQQg7rPxKinBiVry",
+    "PlayerID": "4e0a2b7e-518b-4e99-a884-fb8bd6835e7d"
+  },
+  {
+    "Username": "khoi7",
+    "PasswordHash": "$2a$10$kzzFQNUm8Xhk5pHKH6AEFe6lq8eN2Djn0PN/ehP21SQCcQ.o.hEFm",
+    "PlayerID": "649519ee-ce94-429c-bdc0-e6a0e3cb7904"
+  }
+]
