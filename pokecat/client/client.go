@@ -7,6 +7,12 @@ import (
 	"strings"
 )
 
+// Define host and port for easy configuration
+const (
+	Host = "http://192.168.1.15" // Change this to your desired host IP
+	Port = "8080"                // Change this to your desired port
+)
+
 // Send HTTP Request Helper
 func sendRequest(url string) string {
 	resp, err := http.Get(url)
@@ -33,7 +39,7 @@ func register() string {
 	fmt.Print("Enter password for registration: ")
 	fmt.Scanln(&password)
 
-	response := sendRequest(fmt.Sprintf("http://localhost:8080/register?username=%s&password=%s", username, password))
+	response := sendRequest(fmt.Sprintf("%s:%s/register?username=%s&password=%s", Host, Port, username, password))
 	fmt.Println(response)
 
 	if strings.Contains(response, "successful") {
@@ -50,7 +56,7 @@ func login() string {
 	fmt.Print("Enter password for login: ")
 	fmt.Scanln(&password)
 
-	response := sendRequest(fmt.Sprintf("http://localhost:8080/login?username=%s&password=%s", username, password))
+	response := sendRequest(fmt.Sprintf("%s:%s/login?username=%s&password=%s", Host, Port, username, password))
 	fmt.Println(response)
 
 	if strings.Contains(response, "PlayerID:") {
@@ -65,7 +71,7 @@ func login() string {
 
 // Display the Grid
 func showGrid(playerID string) {
-	url := fmt.Sprintf("http://localhost:8080/debug/grid?player=%s", playerID)
+	url := fmt.Sprintf("%s:%s/debug/grid?player=%s", Host, Port, playerID)
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Println("Error fetching grid:", err)
@@ -106,7 +112,7 @@ func main() {
 			if playerID != "" {
 				fmt.Println("Login successful! PlayerID:", playerID)
 				// Explicitly call join after login
-				sendRequest(fmt.Sprintf("http://localhost:8080/join?playerID=%s", playerID))
+				sendRequest(fmt.Sprintf("%s:%s/join?playerID=%s", Host, Port, playerID))
 				goto GameLoop
 			} else {
 				fmt.Println("Login failed, please try again.")
@@ -130,26 +136,27 @@ GameLoop:
 
 		switch strings.ToLower(input) {
 		case "w":
-			sendRequest(fmt.Sprintf("http://localhost:8080/move?name=%s&direction=up", playerID))
+			sendRequest(fmt.Sprintf("%s:%s/move?name=%s&direction=up", Host, Port, playerID))
 		case "a":
-			sendRequest(fmt.Sprintf("http://localhost:8080/move?name=%s&direction=left", playerID))
+			sendRequest(fmt.Sprintf("%s:%s/move?name=%s&direction=left", Host, Port, playerID))
 		case "s":
-			sendRequest(fmt.Sprintf("http://localhost:8080/move?name=%s&direction=down", playerID))
+			sendRequest(fmt.Sprintf("%s:%s/move?name=%s&direction=down", Host, Port, playerID))
 		case "d":
-			sendRequest(fmt.Sprintf("http://localhost:8080/move?name=%s&direction=right", playerID))
+			sendRequest(fmt.Sprintf("%s:%s/move?name=%s&direction=right", Host, Port, playerID))
 		case "auto on":
-			sendRequest(fmt.Sprintf("http://localhost:8080/automode?name=%s&enable=true", playerID))
+			sendRequest(fmt.Sprintf("%s:%s/automode?name=%s&enable=true", Host, Port, playerID))
 		case "auto off":
-			sendRequest(fmt.Sprintf("http://localhost:8080/automode?name=%s&enable=false", playerID))
+			sendRequest(fmt.Sprintf("%s:%s/automode?name=%s&enable=false", Host, Port, playerID))
 		case "grid":
 			showGrid(playerID)
 		case "save":
-			sendRequest(fmt.Sprintf("http://localhost:8080/save?name=%s", playerID))
+			sendRequest(fmt.Sprintf("%s:%s/save?name=%s", Host, Port, playerID))
+			fmt.Println("Game state saved.")
 		case "quit":
-			fmt.Println("Goodbye!")
+			fmt.Println("Exiting the game.")
 			return
 		default:
-			fmt.Println("Invalid command. Try again!")
+			fmt.Println("Unknown command, please try again.")
 		}
 	}
 }

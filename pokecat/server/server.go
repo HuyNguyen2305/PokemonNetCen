@@ -15,6 +15,12 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// Define host and port for easy configuration
+const (
+	Host = "192.168.1.15" // Change this to your desired host IP or keep it as 0.0.0.0 for all interfaces
+	Port = "8080"         // Change this to your desired port
+)
+
 // ---- Pokemon stats and structs stored here as well as other structs
 // User represents a registered player
 type User struct {

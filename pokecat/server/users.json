@@ -28,5 +28,10 @@
     "Username": "khoi7",
     "PasswordHash": "$2a$10$kzzFQNUm8Xhk5pHKH6AEFe6lq8eN2Djn0PN/ehP21SQCcQ.o.hEFm",
     "PlayerID": "649519ee-ce94-429c-bdc0-e6a0e3cb7904"
+  },
+  {
+    "Username": "user1",
+    "PasswordHash": "$2a$10$WKii7v64CRfWZ4M6s6D15.ggQOVN4rIbc.aUWlIrz5MQck7aPLdfe",
+    "PlayerID": "9dc3bf27-dd3d-4ac3-99f2-07206bd55fe8"
   }
 ]
