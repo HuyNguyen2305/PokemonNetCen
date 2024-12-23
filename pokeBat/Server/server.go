@@ -28,6 +28,7 @@ type User struct {
 type Pokemon struct {
 	Name     string   `json:"Name"`
 	Elements []string `json:"Elements"`
+	EV       int      `json:"EV"`
 	Stats    Stats    `json:"Stats"`
 	Profile  Profile  `json:"Profile"`
 	Damage   []Damage `json:"DamegeWhenAttacked"`
@@ -340,6 +341,19 @@ func performAttack(attacker, defender *Player) {
 	// Send messages to both players
 	attacker.Conn.Write([]byte(fmt.Sprintf("You attacked %s's %s for %d damage.\n", defender.Name, defendPokemon.Name, damage)))
 	defender.Conn.Write([]byte(fmt.Sprintf("Your %s was attacked for %d damage.\n", defendPokemon.Name, damage)))
+
+	// Check if the defender's Pokémon is defeated
+	if defendPokemon.Stats.HP <= 0 {
+		// Increment EV for the attacking Pokémon
+		attackPokemon.EV += 1
+		attacker.Conn.Write([]byte(fmt.Sprintf("%s has defeated %s and gained 1 EV point!\n", attackPokemon.Name, defendPokemon.Name)))
+
+		// Update stats based on the new EV
+		updateStats(attackPokemon)
+
+		// Update the pokedex.json file
+		updatePokedex(attacker.Pokemons)
+	}
 }
 
 func switchPokemon(player *Player) {
@@ -387,5 +401,27 @@ func endBattle(battle *Battle, winner *Player) {
 	}
 	if err := battle.Player2.Conn.Close(); err != nil {
 		log.Printf("Error closing connection for %s: %v\n", battle.Player2.Name, err)
+	}
+}
+
+func updateStats(pokemon *Pokemon) {
+	// Recalculate attributes (except Speed and Damage When Attacked)
+	pokemon.Stats.HP = int(float64(pokemon.Stats.HP) * (1 + float64(pokemon.EV)/100))
+	pokemon.Stats.Attack = int(float64(pokemon.Stats.Attack) * (1 + float64(pokemon.EV)/100))
+	pokemon.Stats.Defense = int(float64(pokemon.Stats.Defense) * (1 + float64(pokemon.EV)/100))
+	pokemon.Stats.Sp_Attack = int(float64(pokemon.Stats.Sp_Attack) * (1 + float64(pokemon.EV)/100))
+	pokemon.Stats.Sp_Defense = int(float64(pokemon.Stats.Sp_Defense) * (1 + float64(pokemon.EV)/100))
+}
+
+func updatePokedex(pokemons []Pokemon) {
+	file, err := os.OpenFile("pokedex.json", os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0644)
+	if err != nil {
+		log.Fatalf("Error opening pokedex.json: %v", err)
+	}
+	defer file.Close()
+
+	encoder := json.NewEncoder(file)
+	if err := encoder.Encode(pokemons); err != nil {
+		log.Fatalf("Error encoding pokedex.json: %v", err)
 	}
 }
