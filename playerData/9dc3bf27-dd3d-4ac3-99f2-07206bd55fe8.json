@@ -1,0 +1,261 @@
+{
+  "ID": "9dc3bf27-dd3d-4ac3-99f2-07206bd55fe8",
+  "Name": "user1",
+  "Position": [
+    28,
+    0
+  ],
+  "Caught": [
+    {
+      "Name": "Loudred",
+      "Elements": [
+        "normal"
+      ],
+      "EV": 0.7988164977143244,
+      "Stats": {
+        "HP": 45,
+        "Attack": 71,
+        "Defense": 43,
+        "Speed": 48,
+        "Sp_Attack": 71,
+        "Sp_Defense": 43
+      },
+      "Profile": {
+        "Height": 1,
+        "Weight": 40.5,
+        "CatchRate": 0,
+        "GenderRatio": {
+          "MaleRatio": 50,
+          "FemaleRatio": 50
+        },
+        "EggGroup": "Monster, Field",
+        "HatchSteps": 5100,
+        "Abilities": "Soundproof, Scrappy"
+      },
+      "DamegeWhenAttacked": [
+        {
+          "Element": "fighting",
+          "Coefficient": 2
+        },
+        {
+          "Element": "ghost",
+          "Coefficient": 0
+        }
+      ],
+      "EvolutionLevel": 40,
+      "NextEvolution": "Exploud",
+      "Moves": [],
+      "Experience": 0,
+      "Level": 33
+    },
+    {
+      "Name": "Hoppip",
+      "Elements": [
+        "grass",
+        "flying"
+      ],
+      "EV": 0.9492166455275834,
+      "Stats": {
+        "HP": 45,
+        "Attack": 35,
+        "Defense": 40,
+        "Speed": 50,
+        "Sp_Attack": 35,
+        "Sp_Defense": 55
+      },
+      "Profile": {
+        "Height": 0.4,
+        "Weight": 0.5,
+        "CatchRate": 0,
+        "GenderRatio": {
+          "MaleRatio": 50,
+          "FemaleRatio": 50
+        },
+        "EggGroup": "Fairy, Grass",
+        "HatchSteps": 5100,
+        "Abilities": "Chlorophyll, Leaf-guard, Infiltrator"
+      },
+      "DamegeWhenAttacked": [
+        {
+          "Element": "ice",
+          "Coefficient": 4
+        },
+        {
+          "Element": "fighting",
+          "Coefficient": 0.5
+        },
+        {
+          "Element": "rock",
+          "Coefficient": 2
+        },
+        {
+          "Element": "water",
+          "Coefficient": 0.5
+        },
+        {
+          "Element": "flying",
+          "Coefficient": 2
+        },
+        {
+          "Element": "grass",
+          "Coefficient": 0.25
+        },
+        {
+          "Element": "poison",
+          "Coefficient": 2
+        },
+        {
+          "Element": "ground",
+          "Coefficient": 0
+        },
+        {
+          "Element": "fire",
+          "Coefficient": 2
+        },
+        {
+          "Element": "",
+          "Coefficient": 0
+        }
+      ],
+      "EvolutionLevel": 18,
+      "NextEvolution": "Skiploom",
+      "Moves": [],
+      "Experience": 0,
+      "Level": 71
+    },
+    {
+      "Name": "Wooper",
+      "Elements": [
+        "water",
+        "ground"
+      ],
+      "EV": 0.6251052917257918,
+      "Stats": {
+        "HP": 55,
+        "Attack": 45,
+        "Defense": 45,
+        "Speed": 15,
+        "Sp_Attack": 25,
+        "Sp_Defense": 25
+      },
+      "Profile": {
+        "Height": 0.4,
+        "Weight": 8.5,
+        "CatchRate": 0,
+        "GenderRatio": {
+          "MaleRatio": 50,
+          "FemaleRatio": 50
+        },
+        "EggGroup": "Water 1, Field",
+        "HatchSteps": 5100,
+        "Abilities": "Damp, Water-absorb, Unaware"
+      },
+      "DamegeWhenAttacked": [
+        {
+          "Element": "grass",
+          "Coefficient": 4
+        },
+        {
+          "Element": "poison",
+          "Coefficient": 0.5
+        },
+        {
+          "Element": "electric",
+          "Coefficient": 2
+        },
+        {
+          "Element": "ground",
+          "Coefficient": 0.5
+        },
+        {
+          "Element": "",
+          "Coefficient": 0
+        },
+        {
+          "Element": "rock",
+          "Coefficient": 0.5
+        },
+        {
+          "Element": "",
+          "Coefficient": 0
+        },
+        {
+          "Element": "steel",
+          "Coefficient": 0.5
+        },
+        {
+          "Element": "",
+          "Coefficient": 0
+        },
+        {
+          "Element": "fire",
+          "Coefficient": 0.5
+        }
+      ],
+      "EvolutionLevel": 20,
+      "NextEvolution": "Quagsire",
+      "Moves": [],
+      "Experience": 0,
+      "Level": 26
+    },
+    {
+      "Name": "Zorua",
+      "Elements": [
+        "dark"
+      ],
+      "EV": 0.8202739689309737,
+      "Stats": {
+        "HP": 40,
+        "Attack": 65,
+        "Defense": 40,
+        "Speed": 65,
+        "Sp_Attack": 80,
+        "Sp_Defense": 40
+      },
+      "Profile": {
+        "Height": 0.7,
+        "Weight": 12.5,
+        "CatchRate": 0,
+        "GenderRatio": {
+          "MaleRatio": 87.5,
+          "FemaleRatio": 12.5
+        },
+        "EggGroup": "Field",
+        "HatchSteps": 6375,
+        "Abilities": "Illusion"
+      },
+      "DamegeWhenAttacked": [
+        {
+          "Element": "fighting",
+          "Coefficient": 2
+        },
+        {
+          "Element": "ghost",
+          "Coefficient": 0.5
+        },
+        {
+          "Element": "bug",
+          "Coefficient": 2
+        },
+        {
+          "Element": "dark",
+          "Coefficient": 0.5
+        },
+        {
+          "Element": "fairy",
+          "Coefficient": 2
+        },
+        {
+          "Element": "psychic",
+          "Coefficient": 0
+        }
+      ],
+      "EvolutionLevel": 30,
+      "NextEvolution": "Zoroark",
+      "Moves": [],
+      "Experience": 0,
+      "Level": 69
+    }
+  ],
+  "AutoMode": false
+}

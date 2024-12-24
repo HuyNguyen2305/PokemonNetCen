@@ -1,0 +1,202 @@
+{
+  "ID": "69de9beb-7405-464b-91bb-5bcde1b90191",
+  "Name": "khoi",
+  "Position": [
+    20,
+    39
+  ],
+  "Caught": [
+    {
+      "Name": "Horsea",
+      "Elements": [
+        "water"
+      ],
+      "EV": 0.6520811130987213,
+      "Stats": {
+        "HP": 30,
+        "Attack": 40,
+        "Defense": 70,
+        "Speed": 60,
+        "Sp_Attack": 70,
+        "Sp_Defense": 25
+      },
+      "Profile": {
+        "Height": 0.4,
+        "Weight": 8,
+        "CatchRate": 0,
+        "GenderRatio": {
+          "MaleRatio": 50,
+          "FemaleRatio": 50
+        },
+        "EggGroup": "Water 1, Dragon",
+        "HatchSteps": 5100,
+        "Abilities": "Damp, Swift-swim, Sniper"
+      },
+      "DamegeWhenAttacked": [
+        {
+          "Element": "grass",
+          "Coefficient": 2
+        },
+        {
+          "Element": "steel",
+          "Coefficient": 0.5
+        },
+        {
+          "Element": "electric",
+          "Coefficient": 2
+        },
+        {
+          "Element": "fire",
+          "Coefficient": 0.5
+        },
+        {
+          "Element": "",
+          "Coefficient": 0
+        },
+        {
+          "Element": "water",
+          "Coefficient": 0.5
+        },
+        {
+          "Element": "",
+          "Coefficient": 0
+        },
+        {
+          "Element": "ice",
+          "Coefficient": 0.5
+        }
+      ],
+      "EvolutionLevel": 32,
+      "NextEvolution": "Seadra",
+      "Moves": [],
+      "Experience": 0,
+      "Level": 56
+    },
+    {
+      "Name": "Swadloon",
+      "Elements": [
+        "grass",
+        "bug"
+      ],
+      "EV": 0.786956165390564,
+      "Stats": {
+        "HP": 45,
+        "Attack": 63,
+        "Defense": 90,
+        "Speed": 42,
+        "Sp_Attack": 50,
+        "Sp_Defense": 80
+      },
+      "Profile": {
+        "Height": 0.5,
+        "Weight": 7.3,
+        "CatchRate": 0,
+        "GenderRatio": {
+          "MaleRatio": 50,
+          "FemaleRatio": 50
+        },
+        "EggGroup": "Bug",
+        "HatchSteps": 3825,
+        "Abilities": "Chlorophyll, Leaf-guard, Overcoat"
+      },
+      "DamegeWhenAttacked": [
+        {
+          "Element": "flying",
+          "Coefficient": 4
+        },
+        {
+          "Element": "fighting",
+          "Coefficient": 0.5
+        },
+        {
+          "Element": "fire",
+          "Coefficient": 4
+        },
+        {
+          "Element": "ground",
+          "Coefficient": 0.5
+        },
+        {
+          "Element": "rock",
+          "Coefficient": 2
+        },
+        {
+          "Element": "water",
+          "Coefficient": 0.5
+        },
+        {
+          "Element": "poison",
+          "Coefficient": 2
+        },
+        {
+          "Element": "electric",
+          "Coefficient": 0.5
+        },
+        {
+          "Element": "bug",
+          "Coefficient": 2
+        },
+        {
+          "Element": "grass",
+          "Coefficient": 0.25
+        },
+        {
+          "Element": "ice",
+          "Coefficient": 2
+        },
+        {
+          "Element": "",
+          "Coefficient": 0
+        }
+      ],
+      "EvolutionLevel": 0,
+      "NextEvolution": "Leavanny",
+      "Moves": [],
+      "Experience": 0,
+      "Level": 33
+    },
+    {
+      "Name": "Ambipom",
+      "Elements": [
+        "normal"
+      ],
+      "EV": 0.9079768167398145,
+      "Stats": {
+        "HP": 75,
+        "Attack": 100,
+        "Defense": 66,
+        "Speed": 115,
+        "Sp_Attack": 60,
+        "Sp_Defense": 66
+      },
+      "Profile": {
+        "Height": 1.2,
+        "Weight": 20.3,
+        "CatchRate": 0,
+        "GenderRatio": {
+          "MaleRatio": 50,
+          "FemaleRatio": 50
+        },
+        "EggGroup": "Field",
+        "HatchSteps": 5100,
+        "Abilities": "Pickup, Skill-link, Technician"
+      },
+      "DamegeWhenAttacked": [
+        {
+          "Element": "fighting",
+          "Coefficient": 2
+        },
+        {
+          "Element": "ghost",
+          "Coefficient": 0
+        }
+      ],
+      "EvolutionLevel": 0,
+      "NextEvolution": "",
+      "Moves": [],
+      "Experience": 0,
+      "Level": 18
+    }
+  ],
+  "AutoMode": false
+}
